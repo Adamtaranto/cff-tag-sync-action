@@ -1,0 +1,21 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+type: software
+title: "Citation Sync Action"
+version: 0.1.0
+date-released: 2025-11-02
+url: "https://github.com/Adamtaranto/citation-sync-action"
+repository-code: "https://github.com/Adamtaranto/citation-sync-action"
+license: MIT
+authors:
+  - family-names: "Taranto"
+    given-names: "Adam"
+    orcid: "https://orcid.org/0000-0002-0606-2589"
+keywords:
+  - "GitHub Actions"
+  - "citation"
+  - "CFF"
+  - "automation"
+  - "semantic versioning"
+  - "version control"
+abstract: "A GitHub Action that automatically synchronizes CITATION.cff file metadata with Git tags. Supports incremental versioning, custom tag formats, and pre-release versions."
