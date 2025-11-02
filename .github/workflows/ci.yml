@@ -47,7 +47,7 @@ jobs:
           
           for output_name, output_config in outputs.items():
               value = output_config.get('value', '')
-              # Extract step IDs from ${{ steps.STEP_ID.outputs.something }}
+              # Extract step IDs from steps.STEP_ID.outputs.something expressions
               matches = re.findall(r'steps\.([a-zA-Z0-9_-]+)\.outputs', value)
               referenced_steps.update(matches)
           
@@ -125,9 +125,9 @@ jobs:
                       # Add bash shebang
                       f.write('#!/bin/bash\n')
                       f.write('set -euo pipefail\n')
-                      # Replace GitHub Actions variables with dummy values for syntax checking
-                      script_clean = script.replace('${{ ', '${')
-                      script_clean = script_clean.replace(' }}', '}')
+                      # Replace GitHub Actions expression syntax with bash variable syntax
+                      script_clean = script.replace('$' + '{{' + ' ', '$' + '{')
+                      script_clean = script_clean.replace(' ' + '}}', '}')
                       f.write(script_clean)
                       temp_file = f.name
                   
