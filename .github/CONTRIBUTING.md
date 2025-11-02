@@ -14,11 +14,14 @@ Thank you for your interest in contributing to Citation Sync Action! We welcome 
 
 1. **Fork the repository** on GitHub
 2. **Clone your fork** locally:
+
    ```bash
    git clone https://github.com/YOUR_USERNAME/citation-sync-action.git
    cd citation-sync-action
    ```
+
 3. **Create a branch** for your changes:
+
    ```bash
    git checkout -b feature/your-feature-name
    ```
@@ -43,13 +46,15 @@ Thank you for your interest in contributing to Citation Sync Action! We welcome 
 ### Commit Messages
 
 Use clear, descriptive commit messages:
+
 - Use present tense ("Add feature" not "Added feature")
 - Use imperative mood ("Move file to..." not "Moves file to...")
 - First line should be 50 characters or less
 - Reference issues and pull requests when relevant
 
 Examples:
-```
+
+```text
 Add support for custom version prefixes
 
 Fix version parsing for pre-release tags
@@ -132,6 +137,7 @@ This project adheres to the Contributor Covenant [Code of Conduct](CODE_OF_CONDU
 ## Questions?
 
 If you have questions about contributing, feel free to:
+
 - Open an issue with the "question" label
 - Start a discussion in GitHub Discussions (if enabled)
 - Contact @Adamtaranto directly

@@ -9,7 +9,7 @@ Automatically synchronize your `CITATION.cff` file version and date with Git tag
 ## Features
 
 - 🏷️ **Automatic Synchronization**: Updates `CITATION.cff` when you push version tags
-- 🔀 **Two Update Modes**: 
+- 🔀 **Two Update Modes**:
   - `increment`: Creates new incremented tag with updated citation (default)
   - `match`: Updates citation to match current tag without creating new tag
 - 🎯 **Flexible Version Formats**: Supports custom prefixes (`v`, `release-`, etc.) and pre-release versions
@@ -42,13 +42,14 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          
+
       - uses: Adamtaranto/citation-sync-action@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 ```
 
 That's it! Now whenever you push a version tag like `v1.0.0`, the action will:
+
 1. Check if `CITATION.cff` needs updating
 2. Update version and date-released fields
 3. Create a new incremented tag (e.g., `v1.0.1`) with the changes
@@ -68,6 +69,7 @@ Creates a new incremented version tag with updated citation:
 ```
 
 **Example Flow**:
+
 - You push tag `v1.0.0`
 - `CITATION.cff` has version `0.9.0`
 - Action updates to version `1.0.1` and creates new tag `v1.0.1`
@@ -84,6 +86,7 @@ Updates citation to match the current tag without incrementing:
 ```
 
 **Example Flow**:
+
 - You push tag `v1.0.0`
 - `CITATION.cff` has version `0.9.0`
 - Action updates to version `1.0.0`
@@ -96,38 +99,38 @@ Updates citation to match the current tag without incrementing:
   with:
     # GitHub token (default: github.token)
     token: ${{ secrets.GITHUB_TOKEN }}
-    
+
     # Path to CITATION.cff (default: 'CITATION.cff')
     citation-path: 'CITATION.cff'
-    
+
     # Target branch (default: auto-detect)
     target-branch: 'main'
-    
+
     # Update mode: 'increment' or 'match' (default: 'increment')
     update-mode: 'increment'
-    
+
     # Version tag prefix (default: 'v')
     version-prefix: 'v'
-    
+
     # Version format regex (default: semantic versioning with optional pre-release)
     version-format: '^([0-9]+)\.([0-9]+)\.([0-9]+)(-[a-zA-Z0-9.-]+)?$'
-    
+
     # Enable debug output (default: 'false')
     enable-debug: 'false'
-    
+
     # Commit message template (default shown, use {version} placeholder)
     commit-message: 'chore: Update CITATION.cff to version {version}'
-    
+
     # Git user configuration
     git-user-name: 'github-actions[bot]'
     git-user-email: 'github-actions[bot]@users.noreply.github.com'
-    
+
     # Add [skip ci] to commit (default: 'true')
     skip-ci: 'true'
-    
+
     # Fail if incremented tag exists (default: 'true')
     fail-on-conflict: 'true'
-    
+
     # Validate CITATION.cff format (default: 'true')
     validate-cff: 'true'
 ```
@@ -170,11 +173,12 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          
+
       - uses: Adamtaranto/citation-sync-action@v1
 ```
 
 **Example**:
+
 - Tag: `v1.0.0-beta.1` → CITATION.cff version: `1.0.0-beta.1`
 - Tag: `v2.0.0-rc.2` → CITATION.cff version: `2.0.0-rc.2`
 - When incrementing from `v1.0.0-beta`, new version is `1.0.1` (pre-release suffix dropped)
@@ -228,6 +232,7 @@ jobs:
 ### Permissions
 
 The action requires `contents: write` permission to:
+
 - Commit changes to CITATION.cff
 - Create and push tags (increment mode)
 - Push to the default branch
@@ -250,6 +255,7 @@ You must checkout with sufficient history to access tag information:
 ### CITATION.cff Requirements
 
 Your `CITATION.cff` must:
+
 1. Be valid YAML
 2. Have exactly one `version` field
 3. Have exactly one `date-released` field
@@ -260,6 +266,7 @@ Your `CITATION.cff` must:
 For a detailed explanation of the action's behavior, see [OVERVIEW.md](OVERVIEW.md).
 
 **Quick Summary**:
+
 1. **Validation**: Checks CITATION.cff exists and is valid
 2. **Tag Parsing**: Extracts version from tag using configured prefix/format
 3. **Branch Detection**: Auto-detects default branch if not specified
@@ -290,7 +297,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          
+
       - uses: Adamtaranto/citation-sync-action@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -315,7 +322,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          
+
       - uses: Adamtaranto/citation-sync-action@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -342,7 +349,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          
+
       - uses: Adamtaranto/citation-sync-action@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -369,12 +376,12 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          
+
       - uses: Adamtaranto/citation-sync-action@v1
         id: sync
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-      
+
       - name: Notify on update
         if: steps.sync.outputs.needs-update == 'true'
         run: |
@@ -391,6 +398,7 @@ jobs:
 **Cause**: The file doesn't exist at the specified path.
 
 **Solution**: Ensure `CITATION.cff` exists in your repository root, or specify the correct path:
+
 ```yaml
 with:
   citation-path: 'path/to/CITATION.cff'
@@ -401,6 +409,7 @@ with:
 **Cause**: Your tag doesn't follow the expected version format.
 
 **Solution**: Check your `version-prefix` and `version-format` inputs match your tags:
+
 ```yaml
 with:
   version-prefix: 'v'  # or 'release-', '', etc.
@@ -412,6 +421,7 @@ with:
 **Cause**: In increment mode, the next version tag already exists.
 
 **Solution**: Either:
+
 - Use `update-mode: match` to update without creating a new tag
 - Set `fail-on-conflict: false` to proceed anyway
 - Manually resolve the tag conflict
@@ -435,6 +445,7 @@ Enable debug output for troubleshooting:
 ### Getting Help
 
 If you encounter issues:
+
 1. Check the [troubleshooting section](#troubleshooting) above
 2. Review the [action logs](https://docs.github.com/en/actions/monitoring-and-troubleshooting-workflows/using-workflow-run-logs) with debug mode enabled
 3. Search [existing issues](https://github.com/Adamtaranto/citation-sync-action/issues)

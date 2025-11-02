@@ -75,6 +75,7 @@ When using this action:
 ### Token Permissions
 
 This action requires `contents: write` permission to:
+
 - Commit changes to CITATION.cff
 - Create and push tags
 - Push to the default branch
@@ -96,6 +97,7 @@ The action could potentially trigger itself in a loop.
 ## Dependencies
 
 This action has minimal dependencies:
+
 - GitHub Actions checkout action
 - Standard bash/git utilities available in GitHub Actions runners
 

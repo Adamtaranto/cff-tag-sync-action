@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+
 - Initial release of Citation Sync Action
 - Automatic CITATION.cff version and date synchronization with Git tags
 - Support for two update modes: 'increment' and 'match'
@@ -20,6 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - GitHub Actions annotations for errors, warnings, and notices
 
 ### Documentation
+
 - Comprehensive README with usage examples
 - Detailed OVERVIEW of action purpose and process
 - Complete TODO/implementation plan

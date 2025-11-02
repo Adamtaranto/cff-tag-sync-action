@@ -33,7 +33,7 @@ A clear and concise description of what actually happened.
 
 ## Error Messages
 
-```
+```text
 # Paste any error messages or logs here
 # Enable debug mode if possible: enable-debug: 'true'
 ```
@@ -54,6 +54,7 @@ A clear and concise description of what actually happened.
 ## Additional Context
 
 Add any other context about the problem here. For example:
+
 - Does this happen with all tags or specific ones?
 - Did this work before and suddenly break?
 - Are you using any custom configurations?
