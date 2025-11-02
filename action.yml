@@ -350,8 +350,7 @@ runs:
           else
             # Field doesn't exist, add it after cff-version if possible
             if grep -q "^cff-version:" "${file}"; then
-              sed -i.tmp "/^cff-version:/a\\
-${field}: ${value}" "${file}"
+              sed -i.tmp "/^cff-version:/a ${field}: ${value}" "${file}"
               rm -f "${file}.tmp"
             else
               # Just append at the end
@@ -424,16 +423,16 @@ ${field}: ${value}" "${file}"
         # Add skip ci if enabled
         if [ "${{ inputs.skip-ci }}" = "true" ]; then
           COMMIT_MSG="${COMMIT_MSG}
-
-[skip ci]"
+        
+        [skip ci]"
         fi
         
         # Create update summary for commit body
         UPDATE_SUMMARY="${{ steps.check-update.outputs.update_summary }}"
         if [ -n "${UPDATE_SUMMARY}" ]; then
           COMMIT_MSG="${COMMIT_MSG}
-
-${UPDATE_SUMMARY}"
+        
+        ${UPDATE_SUMMARY}"
         fi
         
         # Commit the changes
