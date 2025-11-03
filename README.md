@@ -30,7 +30,9 @@ name: Update CITATION.cff on Tag
 on:
   push:
     tags:
-      - 'v*'
+      # Match semantic version tags: v1.0.0, v1.2.3, v2.0.0-beta, etc.
+      # Excludes moving tags: v1, v2
+      - 'v[0-9]+.[0-9]+.[0-9]+*'
 
 permissions:
   contents: write
@@ -39,7 +41,7 @@ jobs:
   update-citation:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           fetch-depth: 0
 
@@ -173,7 +175,7 @@ jobs:
   update-citation:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           fetch-depth: 0
 
@@ -327,7 +329,7 @@ The action automatically detects if your target branch is protected and will:
 You must checkout with sufficient history to access tag information:
 
 ```yaml
-- uses: actions/checkout@v4
+- uses: actions/checkout@v5
   with:
     fetch-depth: 0  # Fetch all history for all tags
 ```
@@ -374,7 +376,7 @@ jobs:
   sync:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           fetch-depth: 0
 
@@ -399,7 +401,7 @@ jobs:
   update:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           fetch-depth: 0
 
@@ -427,7 +429,7 @@ jobs:
   update:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           fetch-depth: 0
 
@@ -469,7 +471,7 @@ jobs:
   sync:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           fetch-depth: 0
 
@@ -496,7 +498,7 @@ jobs:
   sync:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           fetch-depth: 0
 
