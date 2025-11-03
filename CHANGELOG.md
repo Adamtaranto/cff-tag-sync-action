@@ -5,7 +5,25 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [v1.0.0]
+## [v1.0.1] - 2025-11-04
+
+### Added
+
+- Self-test workflow (`.github/workflows/citation-sync.yml`) to automatically test the action on this repository
+- Documentation for moving tags and tag trigger patterns in README
+
+### Changed
+
+- **Improved tag trigger pattern** to prevent double-triggering when pushing both version tags and moving tags
+  - Updated from `'v*'` to `'v[0-9]+.[0-9]+.[0-9]+*'` (excludes moving tags like v1, v2)
+  - This prevents race conditions when pushing both specific tags (v1.0.0) and moving tags (v1) together
+- Updated all examples to use `actions/checkout@v5` instead of `v4`
+
+### Fixed
+
+- Prevented potential race conditions from multiple workflow runs when pushing multiple tags simultaneously
+
+## [v1.0.0] - 2025-11-03
 
 ### Added
 
@@ -30,4 +48,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Security policy
 - MIT License
 
-[v1.0.0]: https://github.com/Adamtaranto/citation-sync-action/compare/v1.0.0...HEAD
+[v1.0.1]: https://github.com/Adamtaranto/citation-sync-action/compare/v1.0.0...v1.0.1
+[v1.0.0]: https://github.com/Adamtaranto/citation-sync-action/releases/tag/v1.0.0
