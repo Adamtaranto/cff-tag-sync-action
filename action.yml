@@ -207,8 +207,14 @@ runs:
       id: tag-info
       shell: bash
       run: |
-        # Get the tag name (version)
-        TAG_NAME=$(git describe --tags --abbrev=0)
+        # Get the tag name that triggered this workflow
+        # Use github.ref_name to get the actual triggering tag, not just the latest
+        if [ -n "${{ github.ref_name }}" ] && [[ "${{ github.ref }}" == refs/tags/* ]]; then
+          TAG_NAME="${{ github.ref_name }}"
+        else
+          # Fallback to git describe if not triggered by a tag push
+          TAG_NAME=$(git describe --tags --abbrev=0)
+        fi
         echo "tag_name=${TAG_NAME}" >> $GITHUB_OUTPUT
 
         # Get the date of the tag in YYYY-MM-DD format
@@ -644,11 +650,20 @@ runs:
           echo "::warning::⚠️  In increment mode with PR: You must manually create tag ${INCREMENTED_TAG_NAME} after merging the PR"
         fi
     - name: Create job summary
-      if: always()
+      if: success() || (failure() && steps.tag-info.outcome == 'success')
       shell: bash
       run: |
         echo "## CITATION.cff Update Report" >> $GITHUB_STEP_SUMMARY
         echo "" >> $GITHUB_STEP_SUMMARY
+
+        # Check if we have valid tag info (indicates successful execution up to this point)
+        if [ -z "${{ steps.tag-info.outputs.tag_name }}" ]; then
+          echo "### ❌ Action Failed" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "The action encountered an error before processing could begin." >> $GITHUB_STEP_SUMMARY
+          echo "Check the workflow logs for details." >> $GITHUB_STEP_SUMMARY
+          exit 0
+        fi
 
         if [ "${{ steps.check-update.outputs.needs_update }}" = "true" ]; then
           echo "### ✅ Update Applied" >> $GITHUB_STEP_SUMMARY
@@ -676,12 +691,17 @@ runs:
             echo "" >> $GITHUB_STEP_SUMMARY
             echo "**Note**: No new tag was created (match mode)." >> $GITHUB_STEP_SUMMARY
           fi
-        else
+        elif [ "${{ steps.check-update.outputs.needs_update }}" = "false" ]; then
           echo "### ℹ️ No Update Required" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "The CITATION.cff file already contains the correct information:" >> $GITHUB_STEP_SUMMARY
           echo "- **Version**: ${{ steps.parse-citation.outputs.current_version }}" >> $GITHUB_STEP_SUMMARY
           echo "- **Date Released**: ${{ steps.parse-citation.outputs.current_date }}" >> $GITHUB_STEP_SUMMARY
+        else
+          echo "### ❌ Update Check Failed" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "The action was unable to determine if CITATION.cff needs updating." >> $GITHUB_STEP_SUMMARY
+          echo "Check the workflow logs for details." >> $GITHUB_STEP_SUMMARY
         fi
 
         echo "" >> $GITHUB_STEP_SUMMARY
