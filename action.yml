@@ -196,6 +196,12 @@ runs:
         elif [ "${HTTP_CODE}" = "404" ]; then
           echo "protected=false" >> $GITHUB_OUTPUT
           echo "::notice::✓ Branch '${TARGET_BRANCH}' is not protected"
+        elif [ "${HTTP_CODE}" = "403" ]; then
+          echo "protected=unknown" >> $GITHUB_OUTPUT
+          echo "::notice::ℹ️ Cannot check branch protection status (insufficient token permissions)"
+          echo "::notice::The action will attempt to push. If the branch is protected, you may need to:"
+          echo "::notice::  - Enable pull request mode (use-pull-request: true), or"
+          echo "::notice::  - Use a PAT with 'repo' scope that has branch protection read access"
         else
           echo "protected=unknown" >> $GITHUB_OUTPUT
           echo "::warning::Unable to determine branch protection status (HTTP ${HTTP_CODE})"
