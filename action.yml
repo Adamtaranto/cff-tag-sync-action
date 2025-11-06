@@ -727,8 +727,29 @@ runs:
         PR_URL=$(echo "${PR_RESPONSE}" | jq -r '.html_url // empty')
 
         if [ -z "${PR_NUMBER}" ] || [ "${PR_NUMBER}" = "null" ]; then
-          echo "::error::Failed to create pull request"
-          echo "::error::Response: ${PR_RESPONSE}"
+          # Check for specific error conditions
+          ERROR_MESSAGE=$(echo "${PR_RESPONSE}" | jq -r '.message // empty')
+
+          if [[ "${ERROR_MESSAGE}" == *"Resource not accessible by integration"* ]] || [[ "${PR_RESPONSE}" == *"403"* ]]; then
+            echo "::error::━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+            echo "::error::❌ INSUFFICIENT PERMISSIONS TO CREATE PULL REQUEST"
+            echo "::error::━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+            echo "::error::"
+            echo "::error::The GITHUB_TOKEN does not have permission to create pull requests."
+            echo "::error::"
+            echo "::error::🔧 SOLUTION:"
+            echo "::error::"
+            echo "::error::Add 'pull-requests: write' permission to your workflow:"
+            echo "::error::"
+            echo "::error::  permissions:"
+            echo "::error::    contents: write"
+            echo "::error::    pull-requests: write  # Required for creating PRs"
+            echo "::error::"
+            echo "::error::━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+          else
+            echo "::error::Failed to create pull request"
+            echo "::error::Response: ${PR_RESPONSE}"
+          fi
           exit 1
         fi
 
