@@ -678,8 +678,8 @@ runs:
         echo "::notice::PR branch: ${PR_BRANCH}"
 
         # Push to PR branch
-        git push origin "HEAD:${PR_BRANCH}" || {
-          echo "::error::Failed to push to PR branch ${PR_BRANCH}"
+        git push origin "HEAD:refs/heads/${PR_BRANCH}" || {
+          echo "::error::Failed to push to PR branch HEAD:refs/heads/${PR_BRANCH}"
           exit 1
         }
 
