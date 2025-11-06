@@ -109,6 +109,7 @@ Updates citation to match the current tag without incrementing:
     target-branch: 'main'
 
     # Create PR instead of pushing to main
+    # If using `use-pull-request: true`, must also add `pull-requests: write` to 'permissions'
     use-pull-request: true
 
     # Update mode: 'increment' or 'match' (default: 'increment')
